@@ -32,12 +32,12 @@ void ADC_Config()
 	ADC_InitStruct.ADC_Resolution = ADC_Resolution_12b;
 	ADC_Init(ADC1, &ADC_InitStruct);
 
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_56Cycles);   //->This apply settings of regular ADC.
+
 	ADC_Cmd(ADC1, ENABLE);
 }
 uint16_t Read_ADC()
 {
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_56Cycles);   //->This apply settings of regular ADC.
-
 	ADC_SoftwareStartConv(ADC1);                                                 //->This start ADC in software.
 
 	while(ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);                       //->Wait End of conversion flag.

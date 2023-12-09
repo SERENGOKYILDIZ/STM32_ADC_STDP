@@ -2012,11 +2012,11 @@ LOAD c:/program files (x86)/atollic/truestudio for stm32 9.3.0/armtools/bin/../l
                 0x080012a8       0x38 src\main.o
                 0x080012a8                GPIO_Config
  .text.ADC_Config
-                0x080012e0       0x48 src\main.o
+                0x080012e0       0x54 src\main.o
                 0x080012e0                ADC_Config
  .text.Read_ADC
-                0x08001328       0x38 src\main.o
-                0x08001328                Read_ADC
+                0x08001334       0x2c src\main.o
+                0x08001334                Read_ADC
  .text.main     0x08001360       0x50 src\main.o
                 0x08001360                main
  .text.EVAL_AUDIO_TransferComplete_CallBack

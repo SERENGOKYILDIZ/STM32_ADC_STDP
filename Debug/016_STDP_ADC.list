@@ -2566,48 +2566,48 @@ void ADC_Config()
 	ADC_Init(ADC1, &ADC_InitStruct);
  8001306:	f107 0310 	add.w	r3, r7, #16
  800130a:	4619      	mov	r1, r3
- 800130c:	4805      	ldr	r0, [pc, #20]	; (8001324 <ADC_Config+0x44>)
+ 800130c:	4808      	ldr	r0, [pc, #32]	; (8001330 <ADC_Config+0x50>)
  800130e:	f7ff fb75 	bl	80009fc <ADC_Init>
 
-	ADC_Cmd(ADC1, ENABLE);
- 8001312:	2101      	movs	r1, #1
- 8001314:	4803      	ldr	r0, [pc, #12]	; (8001324 <ADC_Config+0x44>)
- 8001316:	f7ff fbef 	bl	8000af8 <ADC_Cmd>
-}
- 800131a:	bf00      	nop
- 800131c:	3728      	adds	r7, #40	; 0x28
- 800131e:	46bd      	mov	sp, r7
- 8001320:	bd80      	pop	{r7, pc}
- 8001322:	bf00      	nop
- 8001324:	40012000 	.word	0x40012000
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_56Cycles);   //->This apply settings of regular ADC.
+ 8001312:	2303      	movs	r3, #3
+ 8001314:	2201      	movs	r2, #1
+ 8001316:	2100      	movs	r1, #0
+ 8001318:	4805      	ldr	r0, [pc, #20]	; (8001330 <ADC_Config+0x50>)
+ 800131a:	f7ff fc09 	bl	8000b30 <ADC_RegularChannelConfig>
 
-08001328 <Read_ADC>:
+	ADC_Cmd(ADC1, ENABLE);
+ 800131e:	2101      	movs	r1, #1
+ 8001320:	4803      	ldr	r0, [pc, #12]	; (8001330 <ADC_Config+0x50>)
+ 8001322:	f7ff fbe9 	bl	8000af8 <ADC_Cmd>
+}
+ 8001326:	bf00      	nop
+ 8001328:	3728      	adds	r7, #40	; 0x28
+ 800132a:	46bd      	mov	sp, r7
+ 800132c:	bd80      	pop	{r7, pc}
+ 800132e:	bf00      	nop
+ 8001330:	40012000 	.word	0x40012000
+
+08001334 <Read_ADC>:
 uint16_t Read_ADC()
 {
- 8001328:	b580      	push	{r7, lr}
- 800132a:	af00      	add	r7, sp, #0
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_56Cycles);   //->This apply settings of regular ADC.
- 800132c:	2303      	movs	r3, #3
- 800132e:	2201      	movs	r2, #1
- 8001330:	2100      	movs	r1, #0
- 8001332:	480a      	ldr	r0, [pc, #40]	; (800135c <Read_ADC+0x34>)
- 8001334:	f7ff fbfc 	bl	8000b30 <ADC_RegularChannelConfig>
-
+ 8001334:	b580      	push	{r7, lr}
+ 8001336:	af00      	add	r7, sp, #0
 	ADC_SoftwareStartConv(ADC1);                                                 //->This start ADC in software.
- 8001338:	4808      	ldr	r0, [pc, #32]	; (800135c <Read_ADC+0x34>)
+ 8001338:	4808      	ldr	r0, [pc, #32]	; (800135c <Read_ADC+0x28>)
  800133a:	f7ff fcc3 	bl	8000cc4 <ADC_SoftwareStartConv>
 
 	while(ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);                       //->Wait End of conversion flag.
  800133e:	bf00      	nop
  8001340:	2102      	movs	r1, #2
- 8001342:	4806      	ldr	r0, [pc, #24]	; (800135c <Read_ADC+0x34>)
+ 8001342:	4806      	ldr	r0, [pc, #24]	; (800135c <Read_ADC+0x28>)
  8001344:	f7ff fcdb 	bl	8000cfe <ADC_GetFlagStatus>
  8001348:	4603      	mov	r3, r0
  800134a:	2b00      	cmp	r3, #0
- 800134c:	d0f8      	beq.n	8001340 <Read_ADC+0x18>
+ 800134c:	d0f8      	beq.n	8001340 <Read_ADC+0xc>
 
 	return ADC_GetConversionValue(ADC1);                                         //->Return the value of ADC.
- 800134e:	4803      	ldr	r0, [pc, #12]	; (800135c <Read_ADC+0x34>)
+ 800134e:	4803      	ldr	r0, [pc, #12]	; (800135c <Read_ADC+0x28>)
  8001350:	f7ff fcc8 	bl	8000ce4 <ADC_GetConversionValue>
  8001354:	4603      	mov	r3, r0
 }
@@ -2630,12 +2630,12 @@ int main(void)
 	while (1)
 	{
 		adc_value = Read_ADC();           				//->Read the value of ADC.
- 800136c:	f7ff ffdc 	bl	8001328 <Read_ADC>
+ 800136c:	f7ff ffe2 	bl	8001334 <Read_ADC>
  8001370:	4603      	mov	r3, r0
  8001372:	461a      	mov	r2, r3
  8001374:	4b0c      	ldr	r3, [pc, #48]	; (80013a8 <main+0x48>)
  8001376:	801a      	strh	r2, [r3, #0]
-		//@brief The Calculator of ADC Voltage: 3.3v/2^n-1 n:bit.
+		//@brief The Calculator of ADC Voltage: 3.3v/2^n-1 n:bit. n=16bit
 		adc_voltage = (0.00005035477) * adc_value;         //->The voltage of adc_value.
  8001378:	4b0b      	ldr	r3, [pc, #44]	; (80013a8 <main+0x48>)
  800137a:	881b      	ldrh	r3, [r3, #0]
